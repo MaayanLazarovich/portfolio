@@ -7,8 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
-:root{--black:#04040c;--white:#f0eeff;--s1:#07070f;--s2:#0d0d1c;--border:rgba(255,255,255,.07);--bmd:rgba(255,255,255,.13);--purple:#7c3aed;--pl:#a78bfa;--pdim:rgba(124,58,237,.14);--cyan:#06d6d6;--cl:#67e8f9;--cdim:rgba(6,214,214,.11);--blue:#2563eb;--bl:#60a5fa;--tp:#f0eeff;--ts:#9896b8;--tm:#4e4c6a;--ease:cubic-bezier(.16,1,.3,1)}
+:root{--black:#04040c;--white:#f0eeff;--s1:#07070f;--s2:#0d0d1c;--border:rgba(255,255,255,.07);--bmd:rgba(255,255,255,.13);--purple:#7c3aed;--pl:#a78bfa;--pdim:rgba(124,58,237,.14);--cyan:#06d6d6;--cl:#67e8f9;--cdim:rgba(6,214,214,.11);--blue:#2563eb;--bl:#60a5fa;--tp:#f0eeff;--ts:#9896b8;--tm:#7a7899;--ease:cubic-bezier(.16,1,.3,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;background:var(--black);color:var(--tp);font-family:'Syne',sans-serif;cursor:none}
 body{overflow-x:hidden;background:var(--black)}
@@ -332,9 +333,60 @@ footer{padding:52px 16px 32px}
 .about-grid{gap:28px}
 .discipline-item{padding:12px 0}
 }}
+
+/* ── Email snackbar ── */
+#email-snack{
+  position:fixed;bottom:40px;left:50%;
+  transform:translateX(-50%);
+  z-index:99999;display:none;align-items:center;gap:12px;
+  padding:14px 24px;border-radius:10px;
+  background:rgba(13,13,28,.95);
+  border:1px solid rgba(167,139,250,.35);
+  box-shadow:0 8px 48px rgba(0,0,0,.8),0 0 0 1px rgba(6,214,214,.1);
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:#f0eeff;white-space:nowrap;
+  transition:opacity .3s ease
+}
+#email-snack i{color:#67e8f9;font-size:12px}
+#email-snack i{color:var(--cyan);font-size:13px}
+
+/* ── Snackbar ── */
+#snack{
+  position:fixed;
+  bottom:-80px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:2147483647;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 22px;
+  background:rgba(7,7,15,.92);
+  border:1px solid rgba(103,232,249,.25);
+  border-radius:10px;
+  box-shadow:0 8px 48px rgba(0,0,0,.7),0 0 0 .5px rgba(124,58,237,.2),inset 0 1px 0 rgba(255,255,255,.07);
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#f0eeff;
+  white-space:nowrap;
+  transition:bottom .55s cubic-bezier(.34,1.4,.64,1);
+  pointer-events:none;
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+#snack.up{ bottom:40px; }
+#snack-icon{
+  width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,#7c3aed,#06d6d6);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:9px;color:#fff;
+}
 </style>
 </head>
 <body>
+<!-- Email snackbar -->
 <div id="cr"></div><div id="crr"></div>
 <div class="hprev" id="hp"><div class="hprev-in" id="hpi"><div id="hprev-inner-img" style="display:none;position:absolute;inset:8px;background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:8px;z-index:1"></div><div id="hprev-text-overlay" style="display:none"></div><div class="hprev-lbl" id="hpl" style="display:none"></div><div class="hprev-sub" id="hps" style="display:none"></div></div></div>
 <nav>
@@ -363,7 +415,7 @@ footer{padding:52px 16px 32px}
       <p class="tagline">Specializing in B2B SaaS and complex ecosystems.<br>I bridge the gap between user needs and business goals<br>with scalable, high-impact design systems.</p>
       <div class="socials">
         <a href="https://www.linkedin.com/in/maayan-nuna-lazarovich-2839b0140/" target="_blank">LinkedIn</a>
-        <a href="/cdn-cgi/l/email-protection#e38e82829a828d8fa3848e828a8fcd808c8edc90968189868097deaa8d92968a919ac6d1d385918c8ec6d1d3a08f82918a979ac6d1d3b38c9197858c8f8a8cc6d1d3c6d4a0c6d1d3af8697c6d1d490c6d1d3a08c8f8f82818c91829786">Email</a>
+        <a href="#" onclick="copyEmail(event)">Email</a>
         <a href="Maayan_Lazarovich_Resume.pdf" target="_blank" rel="noopener noreferrer">view resume</a>
       </div>
     </div>
@@ -423,7 +475,7 @@ footer{padding:52px 16px 32px}
   <footer id="contact">
     <div class="foot-status"><span class="foot-dot"></span>Currently available for new challenges</div>
     <h2 class="foot-headline">Got a vision?<br>Let's make it real.</h2>
-    <a class="foot-talk" href="/cdn-cgi/l/email-protection#fe939f9f879f9092be99939f9792d09d9193c18d8b9c949b9d8ac3b7908f8b978c87dbccce988c9193dbcccebd929f8c978a87dbccceae918c8a9891929791dbcccedbc9bddbccceb29b8adbccc98ddbcccebd9192929f9c918c9f8a9b">let's talk.</a>
+    <a class="foot-talk" href="#" onclick="copyEmail(event)">let's talk.</a>
     <div class="foot-divider"></div>
     <div class="foot-bottom">
       <ul class="foot-links">
@@ -519,7 +571,7 @@ footer{padding:52px 16px 32px}
   <footer>
     <div class="foot-status"><span class="foot-dot"></span>Currently available for new challenges</div>
     <h2 class="foot-headline">Got a vision?<br>Let's make it real.</h2>
-    <a class="foot-talk" href="/cdn-cgi/l/email-protection#8ee3efeff7efe0e2cee9e3efe7e2a0ede1e3b1fdfbece4ebedfab3c7e0fffbe7fcf7abbcbee8fce1e3abbcbecde2effce7faf7abbcbedee1fcfae8e1e2e7e1abbcbeabb9cdabbcbec2ebfaabbcb9fdabbcbecde1e2e2efece1fceffaeb">let's talk.</a>
+    <a class="foot-talk" href="#" onclick="copyEmail(event)">let's talk.</a>
     <div class="foot-divider"></div>
     <div class="foot-bottom"><ul class="foot-links"><li><a href="https://www.linkedin.com/in/maayan-nuna-lazarovich-2839b0140/" target="_blank">LinkedIn</a></li><li><a href="Maayan_Lazarovich_Resume.pdf" target="_blank" rel="noopener noreferrer">view resume</a></li></ul><div class="foot-copy">&#x00A9; 2026 Maayan Lazarovich</div></div>
   </footer>
@@ -584,7 +636,7 @@ footer{padding:52px 16px 32px}
   <footer>
     <div class="foot-status"><span class="foot-dot"></span>Currently available for new challenges</div>
     <h2 class="foot-headline">Got a vision?<br>Let's make it real.</h2>
-    <a class="foot-talk" href="/cdn-cgi/l/email-protection#2d404c4c544c43416d4a404c4441034e4240125e584f47484e591064435c58445f54081f1d4b5f4240081f1d6e414c5f445954081f1d7d425f594b42414442081f1d081a6e081f1d614859081f1a5e081f1d6e4241414c4f425f4c5948">let's talk.</a>
+    <a class="foot-talk" href="#" onclick="copyEmail(event)">let's talk.</a>
     <div class="foot-divider"></div>
     <div class="foot-bottom"><ul class="foot-links"><li><a href="https://www.linkedin.com/in/maayan-nuna-lazarovich-2839b0140/" target="_blank">LinkedIn</a></li><li><a href="Maayan_Lazarovich_Resume.pdf" target="_blank" rel="noopener noreferrer">view resume</a></li></ul><div class="foot-copy">&#x00A9; 2026 Maayan Lazarovich</div></div>
   </footer>
@@ -730,7 +782,7 @@ footer{padding:52px 16px 32px}
   <footer>
     <div class="foot-status"><span class="foot-dot"></span>Currently available for new challenges</div>
     <h2 class="foot-headline">Got a vision?<br>Let's make it real.</h2>
-    <a class="foot-talk" href="/cdn-cgi/l/email-protection#6a070b0b130b04062a0d070b03064409050755191f08000f091e5723041b1f0318134f585a0c1805074f585a29060b18031e134f585a3a05181e0c050603054f585a4f5d294f585a260f1e4f585d194f585a290506060b0805180b1e0f">let's talk.</a>
+    <a class="foot-talk" href="#" onclick="copyEmail(event)">let's talk.</a>
     <div class="foot-divider"></div>
     <div class="foot-bottom"><ul class="foot-links"><li><a href="https://www.linkedin.com/in/maayan-nuna-lazarovich-2839b0140/" target="_blank">LinkedIn</a></li><li><a href="Maayan_Lazarovich_Resume.pdf" target="_blank" rel="noopener noreferrer">view resume</a></li></ul><div class="foot-copy">&#x00A9; 2026 Maayan Lazarovich</div></div>
   </footer>
@@ -785,7 +837,7 @@ footer{padding:52px 16px 32px}
   <footer>
     <div class="foot-status"><span class="foot-dot"></span>Currently available for new challenges</div>
     <h2 class="foot-headline">Got a vision?<br>Let's make it real.</h2>
-    <a class="foot-talk" href="/cdn-cgi/l/email-protection#610c000018000f0d21060c00080d4f020e0c5e1214030b0402155c280f101408131844535107130e0c445351220d0013081518445351310e1315070e0d080e4453514456224453512d041544535612445351220e0d0d00030e13001504">let's talk.</a>
+    <a class="foot-talk" href="#" onclick="copyEmail(event)">let's talk.</a>
     <div class="foot-divider"></div>
     <div class="foot-bottom"><ul class="foot-links"><li><a href="https://www.linkedin.com/in/maayan-nuna-lazarovich-2839b0140/" target="_blank">LinkedIn</a></li><li><a href="Maayan_Lazarovich_Resume.pdf" target="_blank" rel="noopener noreferrer">view resume</a></li></ul><div class="foot-copy">&#x00A9; 2026 Maayan Lazarovich</div></div>
   </footer>
@@ -840,7 +892,67 @@ if(photoEl&&photoEl.getAttribute('src')){
   photoEl.addEventListener('load',function(){if(photoEl.naturalWidth>0&&photoPh)photoPh.style.display='none';});
   if(photoEl.complete&&photoEl.naturalWidth>0&&photoPh)photoPh.style.display='none';
 }
-document.querySelectorAll('a[href="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();});});
+/* ── Email copy snackbar ── */
+var snackTimer=null;
+function showSnack(){
+  var s=document.getElementById('email-snack');
+  if(!s){return;}
+  clearTimeout(snackTimer);
+  s.style.display='flex';
+  s.style.opacity='1';
+  snackTimer=setTimeout(function(){
+    s.style.opacity='0';
+    setTimeout(function(){s.style.display='none';},300);
+  },3000);
+}
+function copyEmail(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  var email='maayanlazarovich@gmail.com';
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(email).then(showSnack).catch(function(){fbCopy(email);});
+    } else {fbCopy(email);}
+  } catch(err){fbCopy(email);}
+}
+function fbCopy(text){
+  var t=document.createElement('textarea');
+  t.value=text;
+  t.setAttribute('readonly','');
+  t.style.cssText='position:absolute;left:-9999px;top:-9999px';
+  document.body.appendChild(t);
+  t.select();
+  try{document.execCommand('copy');}catch(err){}
+  document.body.removeChild(t);
+  showSnack();
+}
+document.querySelectorAll('a[href="#"]:not([data-copy-email])').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();});});
+
+/* ── Snackbar ── */
+var _snackT;
+function copyEmail(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  /* Copy to clipboard */
+  var txt='maayanlazarovich@gmail.com';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(txt).catch(function(){_fbCopy(txt);});
+  } else { _fbCopy(txt); }
+  /* Show snackbar */
+  var el=document.getElementById('snack');
+  if(!el)return;
+  clearTimeout(_snackT);
+  el.classList.add('up');
+  _snackT=setTimeout(function(){ el.classList.remove('up'); },3000);
+}
+function _fbCopy(t){
+  var x=document.createElement('textarea');
+  x.value=t;x.style.cssText='position:fixed;opacity:0;top:0;left:0';
+  document.body.appendChild(x);x.select();
+  try{document.execCommand('copy');}catch(e){}
+  document.body.removeChild(x);
+}
 </script>
+<div id="email-snack"><i class="fa-solid fa-check"></i> Email copied to clipboard</div>
+
+<div id="snack"><span id="snack-icon"><i class="fa-solid fa-check"></i></span>Email copied to clipboard</div>
 </body>
 </html>
